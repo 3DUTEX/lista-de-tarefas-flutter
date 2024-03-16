@@ -98,6 +98,7 @@ class _AddActivityState extends State<AddActivity> {
                   shape: MaterialStateProperty.all(const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(4))))),
               child: const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
                     Icons.add,

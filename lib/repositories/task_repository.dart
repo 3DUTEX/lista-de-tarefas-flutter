@@ -8,7 +8,8 @@ abstract class ITaskRepository {
   Future<List<Task>> getAllTasks();
   Future<List<Task>> getTasks({int status});
   Future<bool> delete(int id);
-  Task update(int id, Map<String, dynamic> data);
+  Future<Task> update(int id, Map<String, dynamic> data);
+  Future<Task> getOne(int id);
 }
 
 // Class Repository
@@ -56,9 +57,10 @@ class TaskRepository implements ITaskRepository {
   }
 
   @override
-  Task update(int id, Map<String, dynamic> data) {
-    // TODO: implement update
-    throw UnimplementedError();
+  Future<Task> update(int id, Map<String, dynamic> data) async {
+    Database db = await _database.database;
+    await db.update("tasks", data, where: 'id = ?', whereArgs: [id]);
+    return await getOne(id);
   }
 
   @override
@@ -81,5 +83,21 @@ class TaskRepository implements ITaskRepository {
     }
 
     return listTasks;
+  }
+
+  @override
+  Future<Task> getOne(int id) async {
+    Database db = await _database.database;
+
+    // Pegando somente o primeiro item da lista
+    Map<String, dynamic> task =
+        (await db.query("tasks", where: "id = ?", whereArgs: [id]))[0];
+
+    return Task(
+        id: task["id"],
+        title: task["title"],
+        desc: task["desc"],
+        status: task["status"],
+        date: task["date"]);
   }
 }
