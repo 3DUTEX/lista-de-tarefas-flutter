@@ -1,6 +1,6 @@
 // Interface repository
 import 'package:lista_de_tarefas/models/task.dart';
-import 'package:lista_de_tarefas/database/DB.dart';
+import 'package:lista_de_tarefas/database/db.dart';
 import 'package:sqflite/sqflite.dart';
 
 abstract class ITaskRepository {
@@ -12,11 +12,11 @@ abstract class ITaskRepository {
 
 // Class Repository
 class TaskRepository implements ITaskRepository {
-  DB database = DB.instance;
+  final DB _database = DB.instance;
 
   @override
   Future<int> add(Task task) async {
-    Database db = await database.database;
+    Database db = await _database.database;
     int idInserted = await db.insert('tasks', task.toMap());
 
     return idInserted;
@@ -30,7 +30,7 @@ class TaskRepository implements ITaskRepository {
 
   @override
   Future<List<Task>> getAll() async {
-    Database db = await database.database;
+    Database db = await _database.database;
 
     const String query = "SELECT * FROM tasks";
 
