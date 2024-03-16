@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lista_de_tarefas/models/task.dart';
 import 'package:lista_de_tarefas/repositories/task_repository.dart';
 
 class AddActivity extends StatefulWidget {
@@ -14,6 +15,31 @@ class _AddActivityState extends State<AddActivity> {
   TextEditingController dataPickerController = TextEditingController();
   TextEditingController titleController = TextEditingController();
   TextEditingController descController = TextEditingController();
+
+  // Valida campos
+  bool validateFields() {
+    if (titleController.text == "") return false;
+    if (descController.text == "") return false;
+    if (dataPickerController.text == "") return false;
+
+    return true;
+  }
+
+  Future<int> addTask() async {
+    if (!validateFields()) {
+      throw Exception("Todos os campos devem ser preenchidos!");
+    }
+
+    Task task = Task(
+        title: titleController.text,
+        desc: descController.text,
+        date: dataPickerController.text,
+        status: 0);
+
+    int id = await taskRepository.add(task);
+
+    return id;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +59,27 @@ class _AddActivityState extends State<AddActivity> {
             ),
           ),
           DataPicker(textEditingController: dataPickerController),
-          const Padding(
-            padding: EdgeInsets.only(top: 20, bottom: 20),
-            child: CustomButton(),
+          Padding(
+            padding: const EdgeInsets.only(top: 20, bottom: 20),
+            child: TextButton(
+              onPressed: addTask,
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.indigo),
+                  shape: MaterialStateProperty.all(const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(4))))),
+              child: const Row(
+                children: [
+                  Icon(
+                    Icons.add,
+                    color: Colors.white,
+                  ),
+                  Text(
+                    "ADICIONAR TAREFA",
+                    style: TextStyle(color: Colors.white),
+                  )
+                ],
+              ),
+            ),
           ),
         ],
       ),
@@ -78,7 +122,7 @@ class DataPicker extends StatefulWidget {
 
 class _DataPickerState extends State<DataPicker> {
   // Função que chama o dataPicker
-  Future<void> _selectDate() async {
+  Future<void> selectDate() async {
     DateTime? dateSelected = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
@@ -107,37 +151,9 @@ class _DataPickerState extends State<DataPicker> {
       ),
       readOnly: true, // Apenas leitura
       onTap: () {
-        _selectDate();
+        selectDate();
       },
       controller: widget.textEditingController,
-    );
-  }
-}
-
-// Button
-class CustomButton extends StatelessWidget {
-  const CustomButton({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: () {},
-      style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Colors.indigo),
-          shape: MaterialStateProperty.all(const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(4))))),
-      child: const Row(
-        children: [
-          Icon(
-            Icons.add,
-            color: Colors.white,
-          ),
-          Text(
-            "ADICIONAR TAREFA",
-            style: TextStyle(color: Colors.white),
-          )
-        ],
-      ),
     );
   }
 }
