@@ -49,6 +49,8 @@ class _CompletedActivityState extends State<CompletedActivity> {
                 itemBuilder: (context, index) {
                   Task task = snapshot.data![index];
                   return Card(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4)),
                     color: Colors.indigo,
                     elevation: 16,
                     child: ListTile(

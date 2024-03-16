@@ -43,21 +43,22 @@ class _AllActivityState extends State<AllActivity> {
 
           // se tiver dados
           return Container(
-            padding: const EdgeInsets.all(10),
+            color: const Color(0xFFe9e9e9),
+            padding: const EdgeInsets.all(5),
             child: ListView.builder(
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
                   Task task = snapshot.data![index];
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 5),
+                  return Card(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4)),
+                    color: task.status == 1
+                        ? Colors.indigo
+                        : Colors.indigo.shade300,
+                    elevation: 16,
                     child: ListTile(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4)),
-                      tileColor: task.status == 1 ? Colors.green : Colors.red,
-                      title: Text(
-                        task.title,
-                        style: const TextStyle(color: Colors.white),
-                      ),
+                      title: Text(task.title,
+                          style: const TextStyle(color: Colors.white)),
                       subtitle: Wrap(
                         children: [
                           Padding(
@@ -67,21 +68,24 @@ class _AllActivityState extends State<AllActivity> {
                               style: const TextStyle(color: Colors.white),
                             ),
                           ),
-                          Text(
-                            "Data conclusão : ${task.date}",
-                            style: const TextStyle(color: Colors.white),
-                          )
+                          Text("Data conclusão : ${task.date}",
+                              style: const TextStyle(color: Colors.white))
                         ],
                       ),
-                      trailing: GestureDetector(
-                        onTap: () async {
-                          await handleClickDelete(context, task.id);
-                          setState(() {});
-                        },
-                        child: const Icon(
-                          Icons.delete,
-                          color: Colors.white,
-                        ),
+                      trailing: Wrap(
+                        spacing: 20,
+                        children: [
+                          GestureDetector(
+                            onTap: () async {
+                              await handleClickDelete(context, task.id);
+                              setState(() {});
+                            },
+                            child: const Icon(
+                              Icons.delete,
+                              color: Colors.white,
+                            ),
+                          )
+                        ],
                       ),
                     ),
                   );
@@ -110,7 +114,7 @@ class SemTarefas extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            "Todas",
+            "Concluídas",
             style: TextStyle(fontSize: 20),
           ),
           Text("Sem tarefas no momento!")
