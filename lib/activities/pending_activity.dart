@@ -44,60 +44,69 @@ class _PendingActivityState extends State<PendingActivity> {
 
           // se tiver dados
           return Container(
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  "Pendentes",
-                  style: TextStyle(fontSize: 20),
-                ),
-                Expanded(
-                    child: ListView.separated(
-                        separatorBuilder: (context, index) => const Divider(),
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (context, index) {
-                          Task task = snapshot.data![index];
-                          return ListTile(
-                            title: Text(task.title),
-                            subtitle: Wrap(
-                              children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(top: 5, bottom: 5),
-                                  child: Text("Descrição: ${task.desc}"),
-                                ),
-                                Text("Data conclusão : ${task.date}")
-                              ],
+            padding: const EdgeInsets.all(5),
+            child: ListView.builder(
+                itemCount: snapshot.data!.length,
+                itemBuilder: (context, index) {
+                  Task task = snapshot.data![index];
+                  return Card(
+                    color: Colors.indigo,
+                    elevation: 16,
+                    child: ListTile(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4)),
+                      title: Text(
+                        task.title,
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                      subtitle: Wrap(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 5, bottom: 5),
+                            child: Text(
+                              "Descrição: ${task.desc}",
+                              style: const TextStyle(color: Colors.white),
                             ),
-                            trailing: Wrap(
-                              spacing: 20,
-                              children: [
-                                GestureDetector(
-                                  onTap: () async {
-                                    await Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              EditActivity(task: task),
-                                        ));
-                                    setState(() {});
-                                  },
-                                  child: const Icon(Icons.edit),
-                                ),
-                                GestureDetector(
-                                  onTap: () async {
-                                    await handleClickDelete(context, task.id);
-                                    setState(() {});
-                                  },
-                                  child: const Icon(Icons.delete),
-                                )
-                              ],
+                          ),
+                          Text(
+                            "Data conclusão : ${task.date}",
+                            style: const TextStyle(color: Colors.white),
+                          )
+                        ],
+                      ),
+                      trailing: Wrap(
+                        spacing: 20,
+                        children: [
+                          GestureDetector(
+                            onTap: () async {
+                              await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        EditActivity(task: task),
+                                  ));
+                              setState(() {});
+                            },
+                            child: const Icon(
+                              Icons.edit,
+                              color: Colors.white,
                             ),
-                          );
-                        }))
-              ],
-            ),
+                          ),
+                          GestureDetector(
+                            onTap: () async {
+                              await handleClickDelete(context, task.id);
+                              setState(() {});
+                            },
+                            child: const Icon(
+                              Icons.delete,
+                              color: Colors.white,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                }),
           );
         }
 
