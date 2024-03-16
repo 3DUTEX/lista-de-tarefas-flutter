@@ -28,42 +28,6 @@ class _AddActivityState extends State<AddActivity> {
     return true;
   }
 
-  void clearFields() {
-    setState(() {
-      titleController.text = "";
-      descController.text = "";
-      dataPickerController.text = "";
-    });
-  }
-
-  Future<int> addTask(BuildContext context) async {
-    if (!validateFields()) {
-      if (context.mounted) {
-        showToast(context,
-            backgroundColor: Colors.red,
-            msg: "Todos os campos devem ser preenchidos!");
-      }
-      return 0;
-    }
-
-    Task task = Task(
-        title: titleController.text,
-        desc: descController.text,
-        date: dataPickerController.text,
-        status: 0);
-
-    int id = await taskRepository.add(task);
-
-    if (context.mounted) {
-      showToast(context,
-          backgroundColor: Colors.green, msg: "Tarefa inserida com sucesso!");
-    }
-
-    clearFields();
-
-    return id;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -92,7 +56,7 @@ class _AddActivityState extends State<AddActivity> {
           Padding(
             padding: const EdgeInsets.only(top: 20, bottom: 20),
             child: TextButton(
-              onPressed: () => addTask(context),
+              onPressed: () => () {},
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.indigo),
                   shape: MaterialStateProperty.all(const RoundedRectangleBorder(
