@@ -15,7 +15,7 @@ class _PendingActivityState extends State<PendingActivity> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: taskRepository.getAll(),
+      future: taskRepository.getTasks(status: 0),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           List<Task> data = snapshot.data!;
@@ -29,19 +29,11 @@ class _PendingActivityState extends State<PendingActivity> {
                   style: TextStyle(fontSize: 20),
                 ),
                 Expanded(
-                    child: ListView.builder(
+                    child: ListView.separated(
+                        separatorBuilder: (context, index) => const Divider(),
                         itemCount: data.length,
                         itemBuilder: (context, index) {
-                          return ListTile(
-                            title: Text(data[index].title),
-                            subtitle: Text(data[index].desc),
-                            trailing: const Wrap(
-                              children: [
-                                Icon(Icons.delete),
-                                Icon(Icons.delete)
-                              ],
-                            ),
-                          );
+                          return TaskItem(task: data[index]);
                         }))
               ],
             ),
@@ -52,6 +44,32 @@ class _PendingActivityState extends State<PendingActivity> {
           child: CircularProgressIndicator(),
         );
       },
+    );
+  }
+}
+
+class TaskItem extends StatelessWidget {
+  final Task task;
+
+  const TaskItem({required this.task, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(task.title),
+      subtitle: Wrap(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 5, bottom: 5),
+            child: Text("Descrição: ${task.desc}"),
+          ),
+          Text("Data conclusão : ${task.date}")
+        ],
+      ),
+      trailing: const Wrap(
+        spacing: 20,
+        children: [Icon(Icons.edit), Icon(Icons.delete)],
+      ),
     );
   }
 }
