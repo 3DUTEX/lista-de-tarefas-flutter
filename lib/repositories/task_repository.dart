@@ -32,9 +32,7 @@ class TaskRepository implements ITaskRepository {
   Future<List<Task>> getAll() async {
     Database db = await _database.database;
 
-    const String query = "SELECT * FROM tasks";
-
-    List<Map<String, dynamic>> tasks = await db.query(query);
+    List<Map<String, dynamic>> tasks = await db.query("tasks");
 
     // Colocando tasks do BD em uma lista de instâncias
     List<Task> listTasks = [];

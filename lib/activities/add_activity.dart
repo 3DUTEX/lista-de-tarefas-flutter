@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lista_de_tarefas/models/task.dart';
 import 'package:lista_de_tarefas/repositories/task_repository.dart';
 

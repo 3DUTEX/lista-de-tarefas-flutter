@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lista_de_tarefas/screens/add_activity.dart';
+import 'package:lista_de_tarefas/activities/add_activity.dart';
+import 'package:lista_de_tarefas/activities/pending_activity.dart';
 
 void main() {
   // ignore: prefer_const_constructors
@@ -17,10 +18,13 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final Color bottomColor = Colors.indigo;
+
   final List<Widget> _screens = [
     const AddActivity(),
-    const Text("Pendentes"),
-    const Text("Concluídas")
+    const PendingActivity(),
+    const Text("Concluídas"),
+    const Text("Todas"),
   ];
 
   int _itemSelected = 0;
@@ -31,10 +35,27 @@ class _HomeState extends State<Home> {
       body: _screens[_itemSelected],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _itemSelected,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.add), label: "Adicionar"),
-          BottomNavigationBarItem(icon: Icon(Icons.add), label: "Pendentes"),
-          BottomNavigationBarItem(icon: Icon(Icons.add), label: "Concluídas"),
+        items: [
+          BottomNavigationBarItem(
+              backgroundColor: bottomColor,
+              icon: const Icon(
+                Icons.add_circle_outline_outlined,
+              ),
+              label: "Adicionar"),
+          BottomNavigationBarItem(
+              backgroundColor: bottomColor,
+              icon: const Icon(
+                Icons.task_alt,
+              ),
+              label: "Pendentes"),
+          BottomNavigationBarItem(
+              backgroundColor: bottomColor,
+              icon: const Icon(Icons.check_circle),
+              label: "Concluídas"),
+          BottomNavigationBarItem(
+              backgroundColor: bottomColor,
+              icon: const Icon(Icons.list),
+              label: "Todas"),
         ],
         onTap: (index) => setState(() {
           _itemSelected = index;
