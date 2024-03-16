@@ -7,7 +7,7 @@ abstract class ITaskRepository {
   Future<int> add(Task task);
   Future<List<Task>> getAllTasks();
   Future<List<Task>> getTasks({int status});
-  bool delete(int id);
+  Future<bool> delete(int id);
   Task update(int id, Map<String, dynamic> data);
 }
 
@@ -24,9 +24,14 @@ class TaskRepository implements ITaskRepository {
   }
 
   @override
-  bool delete(int id) {
-    // TODO: implement delete
-    throw UnimplementedError();
+  Future<bool> delete(int id) async {
+    Database db = await _database.database;
+    try {
+      await db.delete("tasks", where: "id = ?", whereArgs: [id]);
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   @override
