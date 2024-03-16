@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lista_de_tarefas/activities/add_activity.dart';
+import 'package:lista_de_tarefas/activities/completed_activity.dart';
 import 'package:lista_de_tarefas/activities/pending_activity.dart';
 
 void main() {
@@ -23,7 +24,7 @@ class _HomeState extends State<Home> {
   final List<Widget> _screens = [
     const AddActivity(),
     const PendingActivity(),
-    const Text("Concluídas"),
+    const CompletedActivity(),
     const Text("Todas"),
   ];
 
