@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lista_de_tarefas/models/task.dart';
 import 'package:lista_de_tarefas/repositories/task_repository.dart';
 
@@ -27,7 +28,10 @@ class _AddActivityState extends State<AddActivity> {
 
   Future<int> addTask() async {
     if (!validateFields()) {
-      throw Exception("Todos os campos devem ser preenchidos!");
+      showToast(
+          backgroundColor: Colors.red,
+          msg: "Todos os campos devem ser preenchidos!");
+      return 0;
     }
 
     Task task = Task(
@@ -38,7 +42,28 @@ class _AddActivityState extends State<AddActivity> {
 
     int id = await taskRepository.add(task);
 
+    showToast(
+        backgroundColor: Colors.green, msg: "Tarefa inserida com sucesso!");
+
+    clearFields();
+
     return id;
+  }
+
+  void showToast(
+      {Color backgroundColor = Colors.cyan, String msg = "Mensagem Vazia!"}) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(msg),
+      backgroundColor: backgroundColor,
+    ));
+  }
+
+  void clearFields() {
+    setState(() {
+      titleController.text = "";
+      descController.text = "";
+      dataPickerController.text = "";
+    });
   }
 
   @override
