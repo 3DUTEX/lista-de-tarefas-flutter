@@ -19,11 +19,13 @@ class _DataPickerState extends State<DataPicker> {
         firstDate: DateTime(2024),
         lastDate: DateTime(2025));
 
-    setState(() {
-      widget.textEditingController.text =
-          // Cortando os minutos e segundos da data
-          dateSelected.toString().split(" ")[0];
-    });
+    if (dateSelected != null) {
+      setState(() {
+        widget.textEditingController.text =
+            // Cortando os minutos e segundos da data
+            dateSelected.toString().split(" ")[0];
+      });
+    }
   }
 
   @override
