@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lista_de_tarefas/activities/add_activity.dart';
+import 'package:lista_de_tarefas/activities/all_activity.dart';
 import 'package:lista_de_tarefas/activities/completed_activity.dart';
 import 'package:lista_de_tarefas/activities/pending_activity.dart';
 
@@ -25,7 +26,7 @@ class _HomeState extends State<Home> {
     const AddActivity(),
     const PendingActivity(),
     const CompletedActivity(),
-    const Text("Todas"),
+    const AllActivity()
   ];
 
   int _itemSelected = 0;
