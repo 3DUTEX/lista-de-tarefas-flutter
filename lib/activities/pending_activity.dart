@@ -66,9 +66,17 @@ class TaskItem extends StatelessWidget {
           Text("Data conclusão : ${task.date}")
         ],
       ),
-      trailing: const Wrap(
+      trailing: Wrap(
         spacing: 20,
-        children: [Icon(Icons.edit), Icon(Icons.delete)],
+        children: [
+          const Icon(Icons.edit),
+          GestureDetector(
+            onTap: () {
+              print(task.id);
+            },
+            child: const Icon(Icons.delete),
+          )
+        ],
       ),
     );
   }

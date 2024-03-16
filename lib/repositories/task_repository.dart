@@ -44,6 +44,7 @@ class TaskRepository implements ITaskRepository {
     List<Task> listTasks = [];
     for (Map<String, dynamic> taskData in tasks) {
       Task task = Task(
+          id: taskData["id"],
           title: taskData["title"],
           desc: taskData["desc"],
           date: taskData["date"],
@@ -71,6 +72,7 @@ class TaskRepository implements ITaskRepository {
     List<Task> listTasks = [];
     for (Map<String, dynamic> taskData in tasks) {
       Task task = Task(
+          id: taskData["id"],
           title: taskData["title"],
           desc: taskData["desc"],
           date: taskData["date"],

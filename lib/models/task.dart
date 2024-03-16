@@ -6,7 +6,8 @@ class Task {
   int status;
 
   Task(
-      {required this.title,
+      {this.id = 0,
+      required this.title,
       this.desc = "",
       required this.date,
       required this.status});
