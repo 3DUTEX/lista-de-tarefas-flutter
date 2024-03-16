@@ -26,11 +26,21 @@ class _AddActivityState extends State<AddActivity> {
     return true;
   }
 
-  Future<int> addTask() async {
+  void clearFields() {
+    setState(() {
+      titleController.text = "";
+      descController.text = "";
+      dataPickerController.text = "";
+    });
+  }
+
+  Future<int> addTask(BuildContext context) async {
     if (!validateFields()) {
-      showToast(context,
-          backgroundColor: Colors.red,
-          msg: "Todos os campos devem ser preenchidos!");
+      if (context.mounted) {
+        showToast(context,
+            backgroundColor: Colors.red,
+            msg: "Todos os campos devem ser preenchidos!");
+      }
       return 0;
     }
 
@@ -42,20 +52,14 @@ class _AddActivityState extends State<AddActivity> {
 
     int id = await taskRepository.add(task);
 
-    showToast(context,
-        backgroundColor: Colors.green, msg: "Tarefa inserida com sucesso!");
+    if (context.mounted) {
+      showToast(context,
+          backgroundColor: Colors.green, msg: "Tarefa inserida com sucesso!");
+    }
 
     clearFields();
 
     return id;
-  }
-
-  void clearFields() {
-    setState(() {
-      titleController.text = "";
-      descController.text = "";
-      dataPickerController.text = "";
-    });
   }
 
   @override
@@ -79,7 +83,7 @@ class _AddActivityState extends State<AddActivity> {
           Padding(
             padding: const EdgeInsets.only(top: 20, bottom: 20),
             child: TextButton(
-              onPressed: addTask,
+              onPressed: () => addTask(context),
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.indigo),
                   shape: MaterialStateProperty.all(const RoundedRectangleBorder(

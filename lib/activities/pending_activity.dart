@@ -57,17 +57,21 @@ class TaskItem extends StatelessWidget {
 
   const TaskItem({required this.repository, required this.task, super.key});
 
-  Future<void> handleClickDelete() async {
+  Future<void> handleClickDelete(BuildContext context) async {
     bool isDeleted = await repository.delete(task.id);
 
     if (!isDeleted) {
-      showToast(context,
-          backgroundColor: Colors.red, msg: "Erro ao apagar tarefa!");
+      if (context.mounted) {
+        showToast(context,
+            backgroundColor: Colors.red, msg: "Erro ao apagar tarefa!");
+      }
       return;
     }
 
-    showToast(context,
-        backgroundColor: Colors.green, msg: "Tarefa apagada com sucesso!");
+    if (context.mounted) {
+      showToast(context,
+          backgroundColor: Colors.green, msg: "Tarefa apagada com sucesso!");
+    }
   }
 
   @override
@@ -88,7 +92,7 @@ class TaskItem extends StatelessWidget {
         children: [
           const Icon(Icons.edit),
           GestureDetector(
-            onTap: handleClickDelete,
+            onTap: () => handleClickDelete(context),
             child: const Icon(Icons.delete),
           )
         ],
