@@ -57,6 +57,7 @@ class _EditActivityState extends State<EditActivity> {
     }
 
     setTaskOnInputs(taskUpdated);
+    Navigator.pop(context);
     return taskUpdated;
   }
 

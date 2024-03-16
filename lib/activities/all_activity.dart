@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lista_de_tarefas/activities/edit_activity.dart';
 import 'package:lista_de_tarefas/helpers/show_toast.dart';
 import 'package:lista_de_tarefas/models/task.dart';
 import 'package:lista_de_tarefas/repositories/task_repository.dart';
@@ -75,6 +76,21 @@ class _AllActivityState extends State<AllActivity> {
                       trailing: Wrap(
                         spacing: 20,
                         children: [
+                          GestureDetector(
+                            onTap: () async {
+                              await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        EditActivity(task: task),
+                                  ));
+                              setState(() {});
+                            },
+                            child: const Icon(
+                              Icons.edit,
+                              color: Colors.white,
+                            ),
+                          ),
                           GestureDetector(
                             onTap: () async {
                               await handleClickDelete(context, task.id);
