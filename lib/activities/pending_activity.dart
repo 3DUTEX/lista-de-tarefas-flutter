@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:lista_de_tarefas/helpers/show_toast.dart';
 import 'package:lista_de_tarefas/models/task.dart';
 import 'package:lista_de_tarefas/repositories/task_repository.dart';
+import 'package:path/path.dart';
 
 class PendingActivity extends StatefulWidget {
   const PendingActivity({super.key});
@@ -33,7 +35,8 @@ class _PendingActivityState extends State<PendingActivity> {
                         separatorBuilder: (context, index) => const Divider(),
                         itemCount: data.length,
                         itemBuilder: (context, index) {
-                          return TaskItem(task: data[index]);
+                          return TaskItem(
+                              repository: taskRepository, task: data[index]);
                         }))
               ],
             ),
@@ -50,8 +53,22 @@ class _PendingActivityState extends State<PendingActivity> {
 
 class TaskItem extends StatelessWidget {
   final Task task;
+  final TaskRepository repository;
 
-  const TaskItem({required this.task, super.key});
+  const TaskItem({required this.repository, required this.task, super.key});
+
+  Future<void> handleClickDelete() async {
+    bool isDeleted = await repository.delete(task.id);
+
+    if (!isDeleted) {
+      showToast(context,
+          backgroundColor: Colors.red, msg: "Erro ao apagar tarefa!");
+      return;
+    }
+
+    showToast(context,
+        backgroundColor: Colors.green, msg: "Tarefa apagada com sucesso!");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,9 +88,7 @@ class TaskItem extends StatelessWidget {
         children: [
           const Icon(Icons.edit),
           GestureDetector(
-            onTap: () {
-              print(task.id);
-            },
+            onTap: handleClickDelete,
             child: const Icon(Icons.delete),
           )
         ],

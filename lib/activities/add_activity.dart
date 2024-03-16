@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lista_de_tarefas/helpers/show_toast.dart';
 import 'package:lista_de_tarefas/models/task.dart';
 import 'package:lista_de_tarefas/repositories/task_repository.dart';
 
@@ -27,7 +28,7 @@ class _AddActivityState extends State<AddActivity> {
 
   Future<int> addTask() async {
     if (!validateFields()) {
-      showToast(
+      showToast(context,
           backgroundColor: Colors.red,
           msg: "Todos os campos devem ser preenchidos!");
       return 0;
@@ -41,20 +42,12 @@ class _AddActivityState extends State<AddActivity> {
 
     int id = await taskRepository.add(task);
 
-    showToast(
+    showToast(context,
         backgroundColor: Colors.green, msg: "Tarefa inserida com sucesso!");
 
     clearFields();
 
     return id;
-  }
-
-  void showToast(
-      {Color backgroundColor = Colors.cyan, String msg = "Mensagem Vazia!"}) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(msg),
-      backgroundColor: backgroundColor,
-    ));
   }
 
   void clearFields() {
