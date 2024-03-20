@@ -44,7 +44,6 @@ class _AllActivityState extends State<AllActivity> {
 
           // se tiver dados
           return Container(
-            color: const Color(0xFFe9e9e9),
             padding: const EdgeInsets.all(5),
             child: ListView.builder(
                 itemCount: snapshot.data!.length,
@@ -130,7 +129,7 @@ class SemTarefas extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            "Concluídas",
+            "Todas",
             style: TextStyle(fontSize: 20),
           ),
           Text("Sem tarefas no momento!")
